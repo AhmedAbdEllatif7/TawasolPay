@@ -9,9 +9,12 @@ use App\Models\Conversation;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Message;
+use Livewire\WithFileUploads;
 
 class FormChat extends Component
 {
+    use WithFileUploads;
+
     public $conversationId;
     public $message;
     public $isReceiverConversationOpened = false;
@@ -31,7 +34,7 @@ class FormChat extends Component
         $conversation = $this->getConversation();
 
         $message = $this->storeMessage($conversation);
-
+        
         $this->broadcastMessage($message, $conversation);
 
         $this->reset('message');
