@@ -6,25 +6,26 @@
             <input type="text"
                    wire:model.defer="message"
                    class="form-control rounded-pill"
-                   placeholder="اكتب رسالتك هنا..."
-                   required>
+                   placeholder="اكتب رسالتك هنا...">
 
             <label for="fileInput" class="btn btn-light rounded-circle" title="إرفاق ملف">
                 <i class="fas fa-paperclip"></i>
-                <input type="file" 
-                       id="fileInput"
-                       class="d-none"
-                       multiple
-                       accept="image/*,application/pdf"
-                       wire:model.defer="files">
+                <input 
+                    type="file"
+                    id="fileInput"
+                    class="d-none"
+                    multiple
+                    accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx,.txt"
+                    wire:model="files">
+
             </label>
+
+            <button type="submit" class="btn btn-primary rounded-pill px-3 align-self-end">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </div>
 
-        <div id="filePreview" class="d-flex flex-wrap gap-2 mt-2" style="display: none;"></div>
-
-        <button type="submit" class="btn btn-primary rounded-pill px-3 align-self-end">
-            <i class="fas fa-paper-plane"></i>
-        </button>
+        <div wire:ignore id="filePreview" class="d-flex flex-wrap gap-2 mt-2" style="display: none;"></div>
     </form>
 </div>
 
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let cachedFiles = [];
 
     function previewFiles(files) {
-        filePreview.innerHTML = ''; 
+        filePreview.innerHTML = '';
         filePreview.style.display = files.length ? 'flex' : 'none';
 
         files.forEach((file, index) => {
@@ -82,16 +83,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function removeFile(index) {
-        cachedFiles.splice(index, 1); // حذف من الكاش فقط
-        previewFiles(cachedFiles);    // إعادة عرض المتبقي
-
-        // ما بنحدث input.files هنا ولا بنرسل شيء لـ Livewire
+        cachedFiles.splice(index, 1);
+        previewFiles(cachedFiles);
     }
 
     form.addEventListener('submit', function () {
         const dt = new DataTransfer();
         cachedFiles.forEach(file => dt.items.add(file));
-        fileInput.files = dt.files; // تحديث input قبل الإرسال فقط
+        fileInput.files = dt.files;
     });
 });
 </script>

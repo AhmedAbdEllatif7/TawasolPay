@@ -22,6 +22,7 @@ class FormChat extends Component
     protected $rules = [
         'message' => 'required|string|min:1|max:10000',
         'conversationId' => 'required|exists:conversations,id',
+        'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:5120',
     ];
 
     protected $listeners = ['messagesRead' => 'markMessagesAsRead'];
